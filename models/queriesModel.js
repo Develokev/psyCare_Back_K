@@ -1,7 +1,7 @@
 const queries = {
 
     allUsersQuery:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
+    SELECT u.name,u.last_name,u.email,u.password,u.avatar,roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id`,
 
@@ -36,14 +36,18 @@ const queries = {
 const appoQueries = {
 
     allAppoQuery:`
-    `,
+    SELECT a.apponame,a.appodate,a.appotime,users.user_id
+    FROM appointments AS a
+    INNER JOIN users ON a.user_id = users.user_id`,
+
+    apposById:`
+    SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
+    FROM users AS u
+    INNER JOIN roles ON u.role_id = roles.role_id
+    WHERE u.email=$1
+    ORDER BY u.name`,
 
 }
 
 
-
 module.exports = queries; appoQueries;
-
-// 4d50d6b247fc
-
-// 7083
