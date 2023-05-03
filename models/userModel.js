@@ -70,8 +70,7 @@ const createUser = async (dataRole) => {
 
     } catch (error) {
         
-        console.log('FAILED creating new user, contact administrator')
-
+        console.log('FAILED creating new user (Model), please, contact administrator')
     }
 
     finally {
@@ -100,6 +99,7 @@ const updateUserById = async (body, id) => { //*operative
 
         client.release();
     }
+    
     return result;
 }
 
