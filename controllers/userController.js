@@ -1,5 +1,5 @@
 const { getAllUsers,  getUserById, updateUserById, createUser, deleteUser } = require("../models/userModel");
-
+const bcrypt = require('bcrypt');
 const getAllUsersControl = async (req,res) => { //*operative
    
     let data;
@@ -56,7 +56,10 @@ const getUserByIdControl = async (req,res) => { //*operative
 
 const createUserControl = async (req,res) => { //*operative
 
-    let dataRole;
+    let dataRole, data;
+
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
 
     dataRole = {
 
@@ -65,9 +68,6 @@ const createUserControl = async (req,res) => { //*operative
     }
 
     try {
-
-        if(dataRole) {
-
             data = await createUser(dataRole)
 
             return res.status(200).json({
@@ -76,8 +76,7 @@ const createUserControl = async (req,res) => { //*operative
                 msg: 'User created successfully',
                 data
             })
-        }
-        
+
     } catch (error) {
         
         return res.status(500).json({

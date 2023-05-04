@@ -58,16 +58,16 @@ const getUserById = async (id) => { //*operative
     return result
 }
 
-const createUser = async (dataRole) => {
+const createUser = async (dataRole) => { //*operative
 
     let client, result;
     const {role_id,name,last_name,email,password,avatar} = dataRole
-
+    console.log({role_id,name,last_name,email,password,avatar})
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.createUserQuery, [role_id,name,last_name,email,password,avatar])
-
+        result = await client.query(queries.createUserQuery, [
+            role_id,name,last_name,email,password,avatar])
     } catch (error) {
         
         console.log('FAILED creating new user (Model), please, contact administrator')
@@ -103,7 +103,7 @@ const updateUserById = async (body, id) => { //*operative
     return result;
 }
 
-const deleteUser = async (id) => {
+const deleteUser = async (id) => { //*operative
 
     let client, result;
 
@@ -125,11 +125,34 @@ const deleteUser = async (id) => {
     return result;
 }
 
+const loginModel = async (email) => {
+
+    let client, result;
+
+    try {
+        
+        client = await pool.connect();
+        const {rows} = await client.query(queries.oneUserByEmailQuery, [email])
+        result = rows
+
+    } catch (error) {
+        
+        console.log('Login Failed (Model)')
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
+
 module.exports = {
 
     getAllUsers,
     getUserById,
     createUser,
     updateUserById,
-    deleteUser
+    deleteUser,
+    loginModel
 }

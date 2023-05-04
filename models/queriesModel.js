@@ -11,8 +11,7 @@ const queries = {
     SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id
-    WHERE u.email=$1
-    ORDER BY u.name`,
+    WHERE u.email=$1`,
 
     oneUserByIdQuery:`
     SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
