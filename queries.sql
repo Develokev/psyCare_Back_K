@@ -13,9 +13,8 @@ user_id serial PRIMARY KEY,
 role_id int,
 name varchar(45) NOT NULL,
 last_name varchar(45) NOT NULL,
-phone 
 email varchar(100) NOT NULL UNIQUE,
-password varchar(25) NOT NULL,
+password varchar(255) NOT NULL,
 avatar varchar(255) NOT NULL,
 register_date date DEFAULT CURRENT_TIMESTAMP,
 ORDER BY name ASC,
@@ -24,41 +23,33 @@ CONSTRAINT FK_roles
 		REFERENCES roles(role_id)
 );
 
---*APPOINTMENTS TABLE--
-CREATE TABLE appointments (
-
-appo_id serial PRIMARY KEY,
-user_id int,
-appoName varchar(100) NOT NULL,
-appoDate varchar(25) NOT NULL,
-appoTime varchar(25) NOT NULL,
-register_date date DEFAULT CURRENT_TIMESTAMP,
-ORDER BY register_date DESC,
-CONSTRAINT FK_users
-    FOREIGN KEY (user_id)
-        REFERENCES users(user_id)
-);
-
 --*APPOINTMENT STATUS TABLE--
 CREATE TABLE appoStatus (
 
 status_id serial PRIMARY KEY,
-appo_id int,
 status varchar(25) NOT NULL,
 CONSTRAINT FK_appointments
     FOREIGN KEY (appo_id)
         REFERENCES appointments(appo_id)
 );
 
---*APPOINTMENT TYPE TABLE--
-CREATE TABLE appoTypes (
+--*APPOINTMENTS TABLE--
+CREATE TABLE appointments (
 
-appoType_id serial PRIMARY KEY,
-appo_id int,
-appoType varchar(25),
-CONSTRAINT FK_appointments
-    FOREIGN KEY (appo_id)
-        REFERENCES appointments(appo_id)
+appo_id serial PRIMARY KEY,
+user_id int,
+status_id int,
+appoName varchar(100) NOT NULL,
+appoDate varchar(25) NOT NULL,
+appoTime varchar(25) NOT NULL,
+appoType varchar(25) NOT NULL,
+register_date date DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT FK_users
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id),
+CONSTRAINT FK_appoStatus
+    FOREIGN KEY (status_id),
+        REFERENCES appoStatus(status_id)
 );
 
 --!TEST TABLE DATA FOR USERS--
@@ -105,13 +96,16 @@ INSERT INTO appointments (
     appoName,
     appoDate,
     appoTime,
+    appoType,
+    user_id,
+    status_id
 
 ) VALUES
-('Appointment for patient', 'Tuesday May 2nd', '10:00'),
-('Appointment for patient', 'Tuesday May 2nd', '15:00'),
-('Appointment for patient', 'Tuesday May 2nd', '18:00'),
-('Appointment for patient', 'Thursday May 4th', '10:00'),
-('Appointment for patient', 'Thursday May 4th', '15:00'),
-('Appointment for patient', 'Thursday May 4th', '18:00'),
-('Appointment for patient', 'Saturday May 6th', '15:00'),
-('Appointment for patient', 'Saturday May 6th', '18:00')
+('Appointment for patient', 'Tuesday May 2nd', '10:00', 'face-to-face', 3, 2),
+('Appointment for patient', 'Tuesday May 2nd', '15:00', 'face-to-face', 3, 4),
+('Appointment for patient', 'Tuesday May 2nd', '18:00', 'online', 6, 2),
+('Appointment for patient', 'Thursday May 4th', '10:00', 'online', 7, 1),
+('Appointment for patient', 'Thursday May 4th', '15:00', 'face-to-face', 8, 1),
+('Appointment for patient', 'Thursday May 4th', '18:00', 'online', 5, 3),
+('Appointment for patient', 'Saturday May 6th', '15:00', 'face-to-face', 2, 2),
+('Appointment for patient', 'Saturday May 6th', '18:00', 'face-to-face', 4, 4)

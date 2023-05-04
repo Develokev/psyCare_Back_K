@@ -1,5 +1,7 @@
 const queries = {
 
+// USERS ++++++++++++++++++++++++++
+
     allUsersQuery:`
     SELECT u.name,u.last_name,u.email,u.password,u.avatar,roles.role
     FROM users AS u
@@ -9,8 +11,7 @@ const queries = {
     SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id
-    WHERE u.email=$1
-    ORDER BY u.name`,
+    WHERE u.email=$1`,
 
     oneUserByIdQuery:`
     SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
@@ -30,24 +31,37 @@ const queries = {
 
     deleteUserQuery:`
     DELETE FROM users
-    WHERE user_id=$1`
-}
+    WHERE user_id=$1`,
 
-const appoQueries = {
+// APPOINTMENTS ++++++++++++++++++++++++++
 
     allAppoQuery:`
-    SELECT a.apponame,a.appodate,a.appotime,users.user_id
-    FROM appointments AS a
-    INNER JOIN users ON a.user_id = users.user_id`,
+    SELECT a.appoName,a.appoDate,a.appoTime,a.appoType,a.register_date,users.user_id,users.name,users.last_name,appoStatus.status
+    FROM ((appointments AS a
+    INNER JOIN users ON a.user_id = users.user_id)
+    INNER JOIN appoStatus ON a.status_id = appoStatus.status_id)
+    ORDER BY register_date DESC`,
 
-    apposById:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
-    FROM users AS u
-    INNER JOIN roles ON u.role_id = roles.role_id
-    WHERE u.email=$1
-    ORDER BY u.name`,
+    apposByIdQuery:`
+    SELECT a.apponame,a.appodate,a.appotime,a.appotype,users.user_id,users.name,users.last_name,appoStatus.status,a.register_date
+    FROM ((appointments AS a
+    INNER JOIN users ON a.user_id = users.user_id)
+    INNER JOIN appoStatus ON a.status_id = appoStatus.status_id)
+    WHERE users.user_id=$1
+    ORDER BY a.register_date DESC`,
 
+    createAppoQuery:`
+    INSERT INTO appointments (appoName,appoDate,appoTime,appoType,user_id,status_id)
+    VALUES ($1, $2, $3, $4, $5, $6)`,
+
+    updateAppoQuery:`
+    UPDATE appointments
+    SET appoDate=$1,appoTime=$2
+    WHERE appo_id=$3`,
+
+    deleteUserQuery:`
+    DELETE FROM appointments
+    WHERE appo_id=$1`
 }
 
-
-module.exports = queries; appoQueries;
+module.exports = queries;

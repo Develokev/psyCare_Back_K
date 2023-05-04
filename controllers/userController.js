@@ -1,5 +1,5 @@
 const { getAllUsers,  getUserById, updateUserById, createUser, deleteUser } = require("../models/userModel");
-
+const bcrypt = require('bcrypt');
 const getAllUsersControl = async (req,res) => { //*operative
    
     let data;
@@ -7,7 +7,6 @@ const getAllUsersControl = async (req,res) => { //*operative
     try {
 
         data = await getAllUsers()
-        console.log(data)
         
         if(data) {
 
@@ -22,7 +21,7 @@ const getAllUsersControl = async (req,res) => { //*operative
         
         res.status(500).json({
             ok:false,
-            msg: 'FAILED getting all users in Controller'
+            msg: 'FAILED getting all users (Controller), please, contact administrator'
         })
     }
 }
@@ -48,15 +47,19 @@ const getUserByIdControl = async (req,res) => { //*operative
     } catch (error) {
         
         res.status(500).json({
+
             ok:false,
-            msg: 'FAILED getting user by ID (Control)'
+            msg: 'FAILED getting user by ID (Controller), please, contact administrator'
         })
     }
 }
 
 const createUserControl = async (req,res) => { //*operative
 
-    let dataRole;
+    let dataRole, data;
+
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
 
     dataRole = {
 
@@ -65,11 +68,7 @@ const createUserControl = async (req,res) => { //*operative
     }
 
     try {
-
-        if(dataRole) {
-
             data = await createUser(dataRole)
-            console.log('esto es data en control', data)
 
             return res.status(200).json({
 
@@ -77,8 +76,7 @@ const createUserControl = async (req,res) => { //*operative
                 msg: 'User created successfully',
                 data
             })
-        }
-        
+
     } catch (error) {
         
         return res.status(500).json({
@@ -106,7 +104,7 @@ const updateUserControl = async (req,res) => { //*operative
             return res.status(200).json({
 
                 ok:true,
-                msg: 'user updated correctly',
+                msg: 'User updated correctly',
                 data
             })
         }
@@ -115,7 +113,7 @@ const updateUserControl = async (req,res) => { //*operative
         
         res.status(500).json({
             ok:false,
-            msg: 'FAILED updating user (Control)'
+            msg: 'FAILED updating user (Controlller), please, contact administrator.'
         })
     }
 }
@@ -135,7 +133,7 @@ const deleteUserControl = async (req,res) => { //!operative - missing validation
         return res.status(200).json({
 
             ok:true,
-            msg: `User ${data.rows.name} deleted successfully`,
+            msg: `User ${data.rows.name} deleted successfully.`,
             data
         })
 

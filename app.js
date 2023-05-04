@@ -19,6 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 
 //*ROUTES
 app.use('/admin/users', require('./routers/userRouters'));
+app.use('/admin/appointments', require('./routers/appoRouters'));
+app.use('/auth/', require('./routers/authRouters'))
 
 app.use((req, res, next) => {
     res.status(404).send("404", {

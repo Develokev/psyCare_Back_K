@@ -2,7 +2,7 @@ const express = require ('express');
 const router = express.Router();
 
 const {validateInputs} = require('../middlewares/inputValidator');
-const { getAllAppointmentsControl, getOneAppointmentControl, createAppointmentControl, updateAppointmentControl, deleteAppointmentControl } = require('../controllers/apiAdminControllers');
+const {getAllAppointmentsControl,getOneAppointmentControl,createAppointmentControl, updateAppointmentControl,deleteAppointmentControl} = require('../controllers/appoControllers');
 
 //*Routers
 //Get All Appointments ++++++++++
