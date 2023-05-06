@@ -3,7 +3,7 @@ const queries = {
 // USERS ++++++++++++++++++++++++++
 
     allUsersQuery:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar,roles.role
+    SELECT u.user_id,u.name,u.last_name,u.email,u.password,u.avatar,roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id`,
 
