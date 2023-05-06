@@ -1,5 +1,6 @@
 const { getAllUsers,  getUserById, updateUserById, createUser, deleteUser } = require("../models/userModel");
 const bcrypt = require('bcrypt');
+
 const getAllUsersControl = async (req,res) => { //*operative
    
     let data;
@@ -63,18 +64,19 @@ const createUserControl = async (req,res) => { //*operative
 
     dataRole = {
 
-        role_id:2,
+        role_id: req.body.role_id || 2,
+        avatar: req.body.avatar || 'https://t.ly/SVHy',
         ...req.body
     }
 
     try {
-            data = await createUser(dataRole)
+           await createUser(dataRole)
 
             return res.status(200).json({
 
                 ok:true,
                 msg: 'User created successfully',
-                data
+                dataRole
             })
 
     } catch (error) {
@@ -127,14 +129,14 @@ const deleteUserControl = async (req,res) => { //!operative - missing validation
 
         try {
         
-        data = await deleteUser(id)
-        console.log(id)
+        const cosa= await deleteUser(id)
+        console.log('esto es cosa en el controller', cosa)
         
         return res.status(200).json({
 
             ok:true,
-            msg: `User ${data.rows.name} deleted successfully.`,
-            data
+            msg: `User ${data.rows} deleted successfully.`,
+
         })
 
         } catch (error) {

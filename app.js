@@ -8,10 +8,6 @@ require('dotenv').config();
 
 const port = process.env.Port || 3000;
 
-//Mongoose
-// const {dbConnection} = require('./helpers/dbConnect')
-// dbConnection();
-
 //* Parse // traducir
 app.use(express.json());
 //* To Parse req with urlencoded payload

@@ -5,6 +5,7 @@ const { loginModel } = require('../models/userModel');
 //LOGIN
 const loginControl = async (req,res) => {
 
+    console.log(req.body)
     const {email,password} = req.body;
 
     try {
@@ -32,7 +33,8 @@ const loginControl = async (req,res) => {
 
                 ok:true,
                 msg: 'Successfully logged in',
-                token
+                token,
+                user: emailOK[0]
             })
         }
 
