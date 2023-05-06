@@ -62,12 +62,14 @@ const createUser = async (dataRole) => { //*operative
 
     let client, result;
     const {role_id,name,last_name,email,password,avatar} = dataRole
-    console.log({role_id,name,last_name,email,password,avatar})
+    console.log({dataRole})
+
     try {
         
         client = await pool.connect();
         result = await client.query(queries.createUserQuery, [
             role_id,name,last_name,email,password,avatar])
+
     } catch (error) {
         
         console.log('FAILED creating new user (Model), please, contact administrator')
@@ -106,12 +108,11 @@ const updateUserById = async (body, id) => { //*operative
 const deleteUser = async (id) => { //*operative
 
     let client, result;
-
+    
     try {
         
         client = await pool.connect();
         result = await client.query(queries.deleteUserQuery, [id])
-        console.log(result)
 
     } catch (error) {
         
