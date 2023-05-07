@@ -36,7 +36,7 @@ const queries = {
 // APPOINTMENTS ++++++++++++++++++++++++++
 
     allAppoQuery:`
-    SELECT a.appoName,a.appoDate,a.appoTime,a.appoType,a.register_date,users.user_id,users.name,users.last_name,appoStatus.status
+    SELECT a.appoName,a.appoDate,a.appoTime,a.appoType,a.register_date,a.appo_id,users.user_id,users.name,users.last_name,appoStatus.status
     FROM ((appointments AS a
     INNER JOIN users ON a.user_id = users.user_id)
     INNER JOIN appoStatus ON a.status_id = appoStatus.status_id)

@@ -101,11 +101,11 @@ INSERT INTO appointments (
     status_id
 
 ) VALUES
-('Appointment for patient', 'Tuesday May 2nd', '10:00', 'face-to-face', 3, 2),
-('Appointment for patient', 'Tuesday May 2nd', '15:00', 'face-to-face', 3, 4),
+('Appointment for patient', 'Tuesday May 2nd', '10:00', 'face-to-face', 11, 2),
+('Appointment for patient', 'Tuesday May 2nd', '15:00', 'face-to-face', 2, 4),
 ('Appointment for patient', 'Tuesday May 2nd', '18:00', 'online', 6, 2),
-('Appointment for patient', 'Thursday May 4th', '10:00', 'online', 7, 1),
-('Appointment for patient', 'Thursday May 4th', '15:00', 'face-to-face', 8, 1),
+('Appointment for patient', 'Thursday May 4th', '10:00', 'online', 2, 1),
+('Appointment for patient', 'Thursday May 4th', '15:00', 'face-to-face', 6, 1),
 ('Appointment for patient', 'Thursday May 4th', '18:00', 'online', 5, 3),
 ('Appointment for patient', 'Saturday May 6th', '15:00', 'face-to-face', 2, 2),
 ('Appointment for patient', 'Saturday May 6th', '18:00', 'face-to-face', 4, 4)
