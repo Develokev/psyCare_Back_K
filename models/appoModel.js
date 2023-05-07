@@ -107,7 +107,7 @@ const deleteAppo = async (id) => {
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.deleteUserQuery, [id])
+        result = await client.query(queries.deleteAppoQuery, [id])
 
     } catch (error) {
         

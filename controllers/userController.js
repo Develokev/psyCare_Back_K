@@ -122,31 +122,28 @@ const updateUserControl = async (req,res) => { //*operative
 
 const deleteUserControl = async (req,res) => { //!operative - missing validation when empty
 
-    let id, data;
+    let id;
     id = req.params.id;
 
     if(id) {
 
         try {
         
-        const cosa= await deleteUser(id)
-        console.log('esto es cosa en el controller', cosa)
-        
-        return res.status(200).json({
+            await deleteUser(id)
+            
+            return res.status(200).json({
 
-            ok:true,
-            msg: `User ${data.rows} deleted successfully.`,
-
-        })
+                ok:true,
+                msg: 'User successfully deleted'
+            })
 
         } catch (error) {
             
-            return res.status(500).json({
+            res.status(500).json({
 
                 ok:false,
                 msg: 'FAILED deleting user. Please, contact administrator'
-            })
-    
+            })   
         }
     }
 }

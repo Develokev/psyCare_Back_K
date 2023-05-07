@@ -59,7 +59,7 @@ const queries = {
     SET appoDate=$1,appoTime=$2
     WHERE appo_id=$3`,
 
-    deleteUserQuery:`
+    deleteAppoQuery:`
     DELETE FROM appointments
     WHERE appo_id=$1`
 }
