@@ -56,6 +56,28 @@ const getApposById = async (id) => { //*operative
     return result;
 }
 
+const getAppoById = async (id) => {
+
+    let client,result;
+
+    try {
+        
+        client = await pool.connect();
+        result = await client.query(queries.appoByIdQuery, [id])
+
+    } catch (error) {
+        
+        console.log('FAILED getting single appointment (Model)')
+        throw error
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
+
 const createAppo = async (data) => { //*operative
 
     let client, result;
@@ -81,12 +103,13 @@ const createAppo = async (data) => { //*operative
 const updateAppo = async (body, id) => {
 
     let client, result;
-    const {appoDate,appoTime} = body;
+
+    const {apponame,appodate,appotime,appotype,status_id} = body;
 
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.updateAppoQuery, [appoDate,appoTime,id])
+        result = await client.query(queries.updateAppoQuery, [apponame,appodate,appotime,appotype,status_id,id])
 
     } catch (error) {
         
@@ -129,5 +152,6 @@ module.exports = {
     getApposById,
     createAppo,
     updateAppo,
-    deleteAppo
+    deleteAppo,
+    getAppoById
 }

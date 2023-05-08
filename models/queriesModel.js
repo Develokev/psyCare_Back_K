@@ -50,14 +50,18 @@ const queries = {
     WHERE users.user_id=$1
     ORDER BY a.register_date DESC`,
 
+    appoByIdQuery:`
+    SELECT * FROM appointments
+    WHERE appo_id=$1`,
+
     createAppoQuery:`
     INSERT INTO appointments (appoName,appoDate,appoTime,appoType,user_id,status_id)
     VALUES ($1, $2, $3, $4, $5, $6)`,
 
     updateAppoQuery:`
     UPDATE appointments
-    SET appoDate=$1,appoTime=$2
-    WHERE appo_id=$3`,
+    SET apponame=$1,appodate=$2,appotime=$3,appotype=$4,status_id=$5
+    WHERE appo_id=$6`,
 
     deleteAppoQuery:`
     DELETE FROM appointments
