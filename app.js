@@ -8,10 +8,6 @@ require('dotenv').config();
 
 const port = process.env.Port || 3000;
 
-//Mongoose
-// const {dbConnection} = require('./helpers/dbConnect')
-// dbConnection();
-
 //* Parse // traducir
 app.use(express.json());
 //* To Parse req with urlencoded payload
@@ -20,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 //*ROUTES
 app.use('/admin/users', require('./routers/userRouters'));
 app.use('/admin/appointments', require('./routers/appoRouters'));
+app.use('/auth/', require('./routers/authRouters'))
 
 app.use((req, res, next) => {
     res.status(404).send("404", {

@@ -1,4 +1,5 @@
 const { getAllUsers,  getUserById, updateUserById, createUser, deleteUser } = require("../models/userModel");
+const bcrypt = require('bcrypt');
 
 const getAllUsersControl = async (req,res) => { //*operative
    
@@ -56,28 +57,28 @@ const getUserByIdControl = async (req,res) => { //*operative
 
 const createUserControl = async (req,res) => { //*operative
 
-    let dataRole;
+    let dataRole, data;
+
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
 
     dataRole = {
 
-        role_id:2,
+        role_id: req.body.role_id || 2,
+        avatar: req.body.avatar || 'https://t.ly/SVHy',
         ...req.body
     }
 
     try {
-
-        if(dataRole) {
-
-            data = await createUser(dataRole)
+           await createUser(dataRole)
 
             return res.status(200).json({
 
                 ok:true,
                 msg: 'User created successfully',
-                data
+                dataRole
             })
-        }
-        
+
     } catch (error) {
         
         return res.status(500).json({
@@ -121,31 +122,28 @@ const updateUserControl = async (req,res) => { //*operative
 
 const deleteUserControl = async (req,res) => { //!operative - missing validation when empty
 
-    let id, data;
+    let id;
     id = req.params.id;
 
     if(id) {
 
         try {
         
-        data = await deleteUser(id)
-        console.log(id)
-        
-        return res.status(200).json({
+            await deleteUser(id)
+            
+            return res.status(200).json({
 
-            ok:true,
-            msg: `User ${data.rows.name} deleted successfully.`,
-            data
-        })
+                ok:true,
+                msg: 'User successfully deleted'
+            })
 
         } catch (error) {
             
-            return res.status(500).json({
+            res.status(500).json({
 
                 ok:false,
                 msg: 'FAILED deleting user. Please, contact administrator'
-            })
-    
+            })   
         }
     }
 }

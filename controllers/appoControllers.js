@@ -1,4 +1,4 @@
-const { getAllAppointments, getApposById, createAppo, updateAppo, deleteAppo } = require('../models/appoModel');
+const { getAllAppointments, getApposById, createAppo, updateAppo, deleteAppo, getAppoById } = require('../models/appoModel');
 
 //*APPOINTMENTS CONTROLLERS
 
@@ -31,7 +31,7 @@ const getAllAppointmentsControl = async (req,res) => {
     }
 }
 
-//Get One Appointment by ID ++++++++++
+//Get Appointments by USER ID ++++++++++
 const getOneAppointmentControl = async (req,res) =>{
 
     let data, id;
@@ -40,6 +40,33 @@ const getOneAppointmentControl = async (req,res) =>{
     try {
 
             data = await getApposById(id)
+
+            return res.status(200).json({
+
+                ok:true,
+                msg: 'Successfully retrieving appointments under USER ID',
+                data
+            })
+
+    } catch (error) {
+        
+        return res.status(500).json({
+
+            ok:false,
+            msg: 'FAILED retrieving appointment by ID (Controller), please, contact administrator'
+        })
+    }
+}
+
+//Get Apointment by Appo ID ++++++++++
+const getAppointmentByIdControl = async (req,res) => {
+
+    let data, id;
+    id = req.params.id;
+    
+    try {
+
+            data = await getAppoById(id)
 
             return res.status(200).json({
 
@@ -65,27 +92,29 @@ const createAppointmentControl = async (req,res) =>{
 
     data = {
 
-        status_id:1,
-        ...req.body
+        apponame: req.body.apponame || 'Therapy Session',
+        ...req.body,
+        status_id: 1,
     }
 
     try {
         
         if(data) {
 
-            data= await createAppo(data)
+            const petition = await createAppo(data)
+            
 
-            return res.status(200).json({
+            res.status(200).json({
 
                 ok:true,
                 msg: 'Appointment enlisted correctly, please await confirmation from Psychologist',
-                data
+                petition
             })
         }
 
     } catch (error) {
         
-        return res.status(500).json({
+        res.status(500).json({
 
             ok:false,
             msg: 'FAILED creating appointment, please, contact administrator'
@@ -159,5 +188,6 @@ module.exports = {
     getOneAppointmentControl,
     createAppointmentControl,
     updateAppointmentControl,
-    deleteAppointmentControl
+    deleteAppointmentControl,
+    getAppointmentByIdControl
 }

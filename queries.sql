@@ -13,9 +13,8 @@ user_id serial PRIMARY KEY,
 role_id int,
 name varchar(45) NOT NULL,
 last_name varchar(45) NOT NULL,
-phone 
 email varchar(100) NOT NULL UNIQUE,
-password varchar(25) NOT NULL,
+password varchar(255) NOT NULL,
 avatar varchar(255) NOT NULL,
 register_date date DEFAULT CURRENT_TIMESTAMP,
 ORDER BY name ASC,
@@ -36,7 +35,6 @@ CONSTRAINT FK_appointments
 
 --*APPOINTMENTS TABLE--
 CREATE TABLE appointments (
-
 appo_id serial PRIMARY KEY,
 user_id int,
 status_id int,
@@ -47,10 +45,12 @@ appoType varchar(25) NOT NULL,
 register_date date DEFAULT CURRENT_TIMESTAMP,
 CONSTRAINT FK_users
     FOREIGN KEY (user_id)
-        REFERENCES users(user_id),
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
 CONSTRAINT FK_appoStatus
-    FOREIGN KEY (status_id),
+    FOREIGN KEY (status_id)
         REFERENCES appoStatus(status_id)
+        ON DELETE CASCADE
 );
 
 --!TEST TABLE DATA FOR USERS--
@@ -85,12 +85,6 @@ INSERT INTO appoStatus (status)
 	('paid'),
 	('cancelled')
 
---!TEST TABLE DATA FOR APPOSTATUS--
-INSERT INTO appoTypes (appoType)
-    VALUES
-    ('face-to-face'),
-    ('on-line')
-
 --!TEST TABLE DATA FOR APPOINTMENTS--
 INSERT INTO appointments (
 
@@ -102,11 +96,19 @@ INSERT INTO appointments (
     status_id
 
 ) VALUES
-('Appointment for patient', 'Tuesday May 2nd', '10:00', 'face-to-face', 3, 2),
-('Appointment for patient', 'Tuesday May 2nd', '15:00', 'face-to-face', 3, 4),
-('Appointment for patient', 'Tuesday May 2nd', '18:00', 'online', 6, 2),
-('Appointment for patient', 'Thursday May 4th', '10:00', 'online', 7, 1),
-('Appointment for patient', 'Thursday May 4th', '15:00', 'face-to-face', 8, 1),
-('Appointment for patient', 'Thursday May 4th', '18:00', 'online', 5, 3),
-('Appointment for patient', 'Saturday May 6th', '15:00', 'face-to-face', 2, 2),
-('Appointment for patient', 'Saturday May 6th', '18:00', 'face-to-face', 4, 4)
+('Appointment for patient', '16-05-2023', '10:00', 'face-to-face', 32, 2),
+('Appointment for patient', '16-05-2023', '15:00', 'face-to-face', 33, 4),
+('Appointment for patient', '16-05-2023', '18:00', 'online', 34, 2),
+('Appointment for patient', '18-05-2023', '10:00', 'online', 35, 1),
+('Appointment for patient', '18-05-2023', '15:00', 'face-to-face', 36, 1),
+('Appointment for patient', '18-05-2023', '18:00', 'online', 37, 3),
+('Appointment for patient', '20-05-2023', '15:00', 'face-to-face', 38, 2),
+('Appointment for patient', '20-05-2023', '18:00', 'face-to-face', 39, 4),
+('Appointment for patient', '25-05-2023', '10:00', 'face-to-face', 40, 2),
+('Appointment for patient', '25-05-2023', '15:00', 'face-to-face', 39, 4),
+('Appointment for patient', '25-05-2023', '18:00', 'online', 38, 2),
+('Appointment for patient', '27-05-2023', '10:00', 'online', 36, 1),
+('Appointment for patient', '27-05-2023', '15:00', 'face-to-face', 36, 1),
+('Appointment for patient', '27-05-2023', '18:00', 'online', 32, 3),
+('Appointment for patient', '29-05-2023', '15:00', 'face-to-face', 33, 2),
+('Appointment for patient', '29-05-2023', '18:00', 'face-to-face', 33, 4)

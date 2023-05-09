@@ -3,16 +3,15 @@ const queries = {
 // USERS ++++++++++++++++++++++++++
 
     allUsersQuery:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar,roles.role
+    SELECT u.user_id,u.name,u.last_name,u.email,u.password,u.avatar,roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id`,
 
     oneUserByEmailQuery:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
+    SELECT u.name,u.last_name,u.email,u.password,u.avatar,u.user_id, roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id
-    WHERE u.email=$1
-    ORDER BY u.name`,
+    WHERE u.email=$1`,
 
     oneUserByIdQuery:`
     SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
@@ -37,7 +36,7 @@ const queries = {
 // APPOINTMENTS ++++++++++++++++++++++++++
 
     allAppoQuery:`
-    SELECT a.appoName,a.appoDate,a.appoTime,a.appoType,a.register_date,users.user_id,users.name,users.last_name,appoStatus.status
+    SELECT a.appoName,a.appoDate,a.appoTime,a.appoType,a.register_date,a.appo_id,users.user_id,users.name,users.last_name,appoStatus.status
     FROM ((appointments AS a
     INNER JOIN users ON a.user_id = users.user_id)
     INNER JOIN appoStatus ON a.status_id = appoStatus.status_id)
@@ -51,16 +50,20 @@ const queries = {
     WHERE users.user_id=$1
     ORDER BY a.register_date DESC`,
 
+    appoByIdQuery:`
+    SELECT * FROM appointments
+    WHERE appo_id=$1`,
+
     createAppoQuery:`
-    INSERT INTO appointments (appoName,appoDate,appoTime,appoType,user_id,status_id)
+    INSERT INTO appointments (apponame,appodate,appotime,appotype,user_id,status_id)
     VALUES ($1, $2, $3, $4, $5, $6)`,
 
     updateAppoQuery:`
     UPDATE appointments
-    SET appoDate=$1,appoTime=$2
-    WHERE appo_id=$3`,
+    SET apponame=$1,appodate=$2,appotime=$3,appotype=$4,status_id=$5
+    WHERE appo_id=$6`,
 
-    deleteUserQuery:`
+    deleteAppoQuery:`
     DELETE FROM appointments
     WHERE appo_id=$1`
 }

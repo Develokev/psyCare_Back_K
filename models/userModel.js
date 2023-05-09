@@ -4,10 +4,10 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
 
-    host: 'localhost',
-    user: 'postgres',
-    database: 'psyCare',
-    password: "admin"
+    host: process.env.ELEPHANT_HOST,
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.ELEPHANT_PASSWORD
 
 })
 
@@ -58,7 +58,7 @@ const getUserById = async (id) => { //*operative
     return result
 }
 
-const createUser = async (dataRole) => {
+const createUser = async (dataRole) => { //*operative
 
     let client, result;
     const {role_id,name,last_name,email,password,avatar} = dataRole
@@ -103,15 +103,14 @@ const updateUserById = async (body, id) => { //*operative
     return result;
 }
 
-const deleteUser = async (id) => {
+const deleteUser = async (id) => { //*operative
 
     let client, result;
-
+    
     try {
         
         client = await pool.connect();
         result = await client.query(queries.deleteUserQuery, [id])
-        console.log(result)
 
     } catch (error) {
         
@@ -125,11 +124,57 @@ const deleteUser = async (id) => {
     return result;
 }
 
+const loginModel = async (email) => {
+
+    let client, result;
+
+    try {
+        
+        client = await pool.connect();
+        const {rows} = await client.query(queries.oneUserByEmailQuery, [email])
+        result = rows
+
+    } catch (error) {
+        
+        console.log('Login Failed (Model)')
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
+
+const getUserByEmail = async (email) => {
+
+    let client, result;
+    console.log(email)
+
+    try {
+        
+        client = await pool.connect();
+        const {rows} = await client.query(queries.oneUserByEmailQuery, [email])
+        result = rows
+
+    } catch (error) {
+        
+        console.log('Login Failed (Model)')
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
 module.exports = {
 
     getAllUsers,
     getUserById,
     createUser,
     updateUserById,
-    deleteUser
+    deleteUser,
+    loginModel,
+    getUserByEmail
 }

@@ -4,10 +4,10 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
 
-    host: 'localhost',
-    user: 'postgres',
-    database: 'psyCare',
-    password: "admin"
+    host: process.env.ELEPHANT_HOST,
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.ELEPHANT_PASSWORD
 
 })
 
@@ -56,15 +56,39 @@ const getApposById = async (id) => { //*operative
     return result;
 }
 
-const createAppo = async (data) => { //*operative
+const getAppoById = async (id) => {
 
-    let client, result;
-    const {status_id,appoName,appoDate,appoTime,appoType,user_id} = data
+    let client,result;
 
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.createAppoQuery, [appoName,appoDate,appoTime,appoType,user_id,status_id])
+        result = await client.query(queries.appoByIdQuery, [id])
+
+    } catch (error) {
+        
+        console.log('FAILED getting single appointment (Model)')
+        throw error
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
+
+const createAppo = async (data) => { //*operative
+
+    let client, result;
+    const {apponame,appodate,appotime,appotype,user_id,status_id,} = data
+    console.log('esto es data', data)
+
+    try {
+        
+        client = await pool.connect();
+        result = await client.query(queries.createAppoQuery, [apponame,appodate,appotime,appotype,user_id,status_id])
+
     } catch (error) {
         
         console.log('FAILED creating new appointment (Model)')
@@ -81,12 +105,13 @@ const createAppo = async (data) => { //*operative
 const updateAppo = async (body, id) => {
 
     let client, result;
-    const {appoDate,appoTime} = body;
+
+    const {apponame,appodate,appotime,appotype,status_id} = body;
 
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.updateAppoQuery, [appoDate,appoTime,id])
+        result = await client.query(queries.updateAppoQuery, [apponame,appodate,appotime,appotype,user_id,status_id])
 
     } catch (error) {
         
@@ -107,7 +132,7 @@ const deleteAppo = async (id) => {
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.deleteUserQuery, [id])
+        result = await client.query(queries.deleteAppoQuery, [id])
 
     } catch (error) {
         
@@ -122,12 +147,12 @@ const deleteAppo = async (id) => {
     return result;
 }
 
-
 module.exports = {
 
     getAllAppointments,
     getApposById,
     createAppo,
     updateAppo,
-    deleteAppo
+    deleteAppo,
+    getAppoById
 }
