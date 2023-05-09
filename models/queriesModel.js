@@ -55,7 +55,7 @@ const queries = {
     WHERE appo_id=$1`,
 
     createAppoQuery:`
-    INSERT INTO appointments (appoName,appoDate,appoTime,appoType,user_id,status_id)
+    INSERT INTO appointments (apponame,appodate,appotime,appotype,user_id,status_id)
     VALUES ($1, $2, $3, $4, $5, $6)`,
 
     updateAppoQuery:`

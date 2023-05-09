@@ -4,10 +4,10 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
 
-    host: 'localhost',
-    user: 'postgres',
-    database: 'psyCare',
-    password: "admin"
+    host: process.env.ELEPHANT_HOST,
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.ELEPHANT_PASSWORD
 
 })
 
@@ -62,13 +62,11 @@ const createUser = async (dataRole) => { //*operative
 
     let client, result;
     const {role_id,name,last_name,email,password,avatar} = dataRole
-    console.log({dataRole})
 
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.createUserQuery, [
-            role_id,name,last_name,email,password,avatar])
+        result = await client.query(queries.createUserQuery, [role_id,name,last_name,email,password,avatar])
 
     } catch (error) {
         

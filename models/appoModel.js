@@ -4,10 +4,10 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
 
-    host: 'localhost',
-    user: 'postgres',
-    database: 'psyCare',
-    password: "admin"
+    host: process.env.ELEPHANT_HOST,
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.ELEPHANT_PASSWORD
 
 })
 
@@ -81,12 +81,14 @@ const getAppoById = async (id) => {
 const createAppo = async (data) => { //*operative
 
     let client, result;
-    const {status_id,appoName,appoDate,appoTime,appoType,user_id} = data
+    const {apponame,appodate,appotime,appotype,user_id,status_id,} = data
+    console.log('esto es data', data)
 
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.createAppoQuery, [appoName,appoDate,appoTime,appoType,user_id,status_id])
+        result = await client.query(queries.createAppoQuery, [apponame,appodate,appotime,appotype,user_id,status_id])
+
     } catch (error) {
         
         console.log('FAILED creating new appointment (Model)')
@@ -109,7 +111,7 @@ const updateAppo = async (body, id) => {
     try {
         
         client = await pool.connect();
-        result = await client.query(queries.updateAppoQuery, [apponame,appodate,appotime,appotype,status_id,id])
+        result = await client.query(queries.updateAppoQuery, [apponame,appodate,appotime,appotype,user_id,status_id])
 
     } catch (error) {
         
@@ -144,7 +146,6 @@ const deleteAppo = async (id) => {
 
     return result;
 }
-
 
 module.exports = {
 
