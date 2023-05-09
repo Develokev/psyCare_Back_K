@@ -146,6 +146,28 @@ const loginModel = async (email) => {
     return result;
 }
 
+const getUserByEmail = async (email) => {
+
+    let client, result;
+    console.log(email)
+
+    try {
+        
+        client = await pool.connect();
+        const {rows} = await client.query(queries.oneUserByEmailQuery, [email])
+        result = rows
+
+    } catch (error) {
+        
+        console.log('Login Failed (Model)')
+    }
+
+    finally {
+
+        client.release();
+    }
+    return result;
+}
 module.exports = {
 
     getAllUsers,
@@ -153,5 +175,6 @@ module.exports = {
     createUser,
     updateUserById,
     deleteUser,
-    loginModel
+    loginModel,
+    getUserByEmail
 }

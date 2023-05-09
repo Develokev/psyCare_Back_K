@@ -8,7 +8,7 @@ const queries = {
     INNER JOIN roles ON u.role_id = roles.role_id`,
 
     oneUserByEmailQuery:`
-    SELECT u.name,u.last_name,u.email,u.password,u.avatar, roles.role
+    SELECT u.name,u.last_name,u.email,u.password,u.avatar,u.user_id, roles.role
     FROM users AS u
     INNER JOIN roles ON u.role_id = roles.role_id
     WHERE u.email=$1`,
