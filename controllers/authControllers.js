@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const {generateToken} = require('../helpers/generateJWT');
-const { loginModel } = require('../models/userModel');
+const { loginModel, getUserByEmail } = require('../models/userModel');
 
 //LOGIN
 const loginControl = async (req,res) => {
@@ -48,9 +48,39 @@ const loginControl = async (req,res) => {
     }
 }
 
+//Get one user by Email
+const getUserByEmailControl = async (req,res) => {
+
+    let data;
+    const email= req.params.email;
+
+    try {
+
+        if(email) {
+
+            data = await getUserByEmail(email)
+
+            return res.status(200).json({
+
+                ok:true,
+                data
+            })
+        }
+
+    } catch (error) {
+        
+        res.status(500).json({
+
+            ok:false,
+            msg: 'FAILED getting user by EMAIL (Controller), please, contact administrator'
+        })
+    }
+}
+
 
 
 module.exports = {
 
-    loginControl
+    loginControl,
+    getUserByEmailControl
 }
