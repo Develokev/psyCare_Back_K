@@ -92,27 +92,29 @@ const createAppointmentControl = async (req,res) =>{
 
     data = {
 
-        status_id:1,
-        ...req.body
+        apponame: req.body.apponame || 'Therapy Session',
+        ...req.body,
+        status_id: 1,
     }
 
     try {
         
         if(data) {
 
-            data= await createAppo(data)
+            const petition = await createAppo(data)
+            
 
-            return res.status(200).json({
+            res.status(200).json({
 
                 ok:true,
                 msg: 'Appointment enlisted correctly, please await confirmation from Psychologist',
-                data
+                petition
             })
         }
 
     } catch (error) {
         
-        return res.status(500).json({
+        res.status(500).json({
 
             ok:false,
             msg: 'FAILED creating appointment, please, contact administrator'

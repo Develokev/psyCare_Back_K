@@ -85,12 +85,6 @@ INSERT INTO appoStatus (status)
 	('paid'),
 	('cancelled')
 
---!TEST TABLE DATA FOR APPOSTATUS--
-INSERT INTO appoTypes (appoType)
-    VALUES
-    ('face-to-face'),
-    ('on-line')
-
 --!TEST TABLE DATA FOR APPOINTMENTS--
 INSERT INTO appointments (
 
@@ -102,19 +96,19 @@ INSERT INTO appointments (
     status_id
 
 ) VALUES
-('Appointment for patient', 'Tuesday May 2nd', '10:00', 'face-to-face', 32, 2),
-('Appointment for patient', 'Tuesday May 2nd', '15:00', 'face-to-face', 33, 4),
-('Appointment for patient', 'Tuesday May 2nd', '18:00', 'online', 34, 2),
-('Appointment for patient', 'Thursday May 4th', '10:00', 'online', 35, 1),
-('Appointment for patient', 'Thursday May 4th', '15:00', 'face-to-face', 36, 1),
-('Appointment for patient', 'Thursday May 4th', '18:00', 'online', 37, 3),
-('Appointment for patient', 'Saturday May 6th', '15:00', 'face-to-face', 38, 2),
-('Appointment for patient', 'Saturday May 6th', '18:00', 'face-to-face', 39, 4),
-('Appointment for patient', 'Tuesday May 15th', '10:00', 'face-to-face', 40, 2),
-('Appointment for patient', 'Tuesday May 15th', '15:00', 'face-to-face', 39, 4),
-('Appointment for patient', 'Tuesday May 15th', '18:00', 'online', 38, 2),
-('Appointment for patient', 'Thursday May 17th', '10:00', 'online', 36, 1),
-('Appointment for patient', 'Thursday May 17th', '15:00', 'face-to-face', 36, 1),
-('Appointment for patient', 'Thursday May 17th', '18:00', 'online', 32, 3),
-('Appointment for patient', 'Saturday May 19th', '15:00', 'face-to-face', 33, 2),
-('Appointment for patient', 'Saturday May 19th', '18:00', 'face-to-face', 33, 4)
+('Appointment for patient', '16-05-2023', '10:00', 'face-to-face', 32, 2),
+('Appointment for patient', '16-05-2023', '15:00', 'face-to-face', 33, 4),
+('Appointment for patient', '16-05-2023', '18:00', 'online', 34, 2),
+('Appointment for patient', '18-05-2023', '10:00', 'online', 35, 1),
+('Appointment for patient', '18-05-2023', '15:00', 'face-to-face', 36, 1),
+('Appointment for patient', '18-05-2023', '18:00', 'online', 37, 3),
+('Appointment for patient', '20-05-2023', '15:00', 'face-to-face', 38, 2),
+('Appointment for patient', '20-05-2023', '18:00', 'face-to-face', 39, 4),
+('Appointment for patient', '25-05-2023', '10:00', 'face-to-face', 40, 2),
+('Appointment for patient', '25-05-2023', '15:00', 'face-to-face', 39, 4),
+('Appointment for patient', '25-05-2023', '18:00', 'online', 38, 2),
+('Appointment for patient', '27-05-2023', '10:00', 'online', 36, 1),
+('Appointment for patient', '27-05-2023', '15:00', 'face-to-face', 36, 1),
+('Appointment for patient', '27-05-2023', '18:00', 'online', 32, 3),
+('Appointment for patient', '29-05-2023', '15:00', 'face-to-face', 33, 2),
+('Appointment for patient', '29-05-2023', '18:00', 'face-to-face', 33, 4)
